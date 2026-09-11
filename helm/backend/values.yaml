@@ -6,7 +6,7 @@ backend:
   port: 5000
   env:
     PORT: "5000"
-    CLIENT_ORIGIN: "http://k8s-mernblog-albtest-d688d98579-146372878.ap-south-1.elb.amazonaws.com/"
+    CLIENT_ORIGIN: "http://k8s-mernblog-merningr-a3dcfa66e8-1298005677.ap-south-1.elb.amazonaws.com/"
   resources:
     requests:
       cpu: "100m"
