@@ -6,6 +6,13 @@ import PostList from './components/PostList.jsx';
 export default function App() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [theme, setTheme] = useState(() => {
+    try {
+      return localStorage.getItem('theme') || 'light';
+    } catch (e) {
+      return 'light';
+    }
+  });
 
   const loadPosts = async () => {
     setLoading(true);
@@ -17,6 +24,13 @@ export default function App() {
   useEffect(() => {
     loadPosts();
   }, []);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    try {
+      localStorage.setItem('theme', theme);
+    } catch (e) {}
+  }, [theme]);
 
   const handleCreate = async (post) => {
     await createPost(post);
@@ -30,9 +44,33 @@ export default function App() {
 
   return (
     <div className="app">
-      <h1>Simple Blog</h1>
-      <PostForm onCreate={handleCreate} />
-      {loading ? <p>Loading...</p> : <PostList posts={posts} onDelete={handleDelete} />}
+      <header className="header">
+        <div className="header-brand">
+          <div className="header-logo" aria-hidden="true">✍️</div>
+          <h1>Inkwell</h1>
+        </div>
+        <div className="header-actions">
+          <button
+            className="theme-toggle"
+            onClick={() => setTheme((t) => (t === 'light' ? 'dark' : 'light'))}
+            aria-label="Toggle theme"
+          >
+            {theme === 'light' ? '🌙' : '☀️'}
+          </button>
+        </div>
+      </header>
+
+      <main>
+        <PostForm onCreate={handleCreate} />
+        {loading ? (
+          <div className="loading-state">
+            <div className="loading-spinner" />
+            <p>Loading posts…</p>
+          </div>
+        ) : (
+          <PostList posts={posts} onDelete={handleDelete} />
+        )}
+      </main>
     </div>
   );
 }
