@@ -52,6 +52,15 @@ jobs:
 
       - name: Update kubeconfig
         run: aws eks update-kubeconfig --name ${{ vars.EKS_CLUSTER_NAME }} --region ${{ vars.AWS_REGION }}
+      
+      - name: Create/update backend secret
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+        run: |
+          kubectl create secret generic backend-secret \
+          --namespace mern-blog \
+          --from-literal=MONGODB_URI="$MONGODB_URI" \
+          --dry-run=client -o yaml | kubectl apply -f -
 
       - name: Deploy with Helm
         run: |
