@@ -1,0 +1,16 @@
+backend:
+  image:
+    repository: rahulr45/blog-backend
+    tag: latest
+  replicas: 1
+  port: 5000
+  env:
+    PORT: "5000"
+    CLIENT_ORIGIN: "http://k8s-mernblog-albtest-d688d98579-146372878.ap-south-1.elb.amazonaws.com/"
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+    limits:
+      cpu: "250m"
+      memory: "256Mi"
