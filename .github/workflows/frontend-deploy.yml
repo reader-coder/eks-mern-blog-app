@@ -33,7 +33,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build image
-        run: docker build -t ${{ vars.DOCKERHUB_USERNAME }}/blog-frontend:${{ github.sha }} ./frontend
+        run: docker build --build-arg VITE_API_URL=/api -t ${{ vars.DOCKERHUB_USERNAME }}/blog-frontend:${{ github.sha }} ./frontend
 
       - name: Push image to Docker Hub
         run: docker push ${{ vars.DOCKERHUB_USERNAME }}/blog-frontend:${{ github.sha }}
