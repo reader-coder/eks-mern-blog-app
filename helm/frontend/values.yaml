@@ -5,7 +5,7 @@ frontend:
   replicas: 1
   port: 80
   env:
-    VITE_API_URL: "/api"
+    VITE_API_URL: "http://k8s-mernblog-merningr-a3dcfa66e8-1298005677.ap-south-1.elb.amazonaws.com/api"
   resources:
     requests:
       cpu: "100m"
