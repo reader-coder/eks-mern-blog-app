@@ -3,9 +3,14 @@ on:
   push:
     branches: [main]
     paths:
-      - 'backend/**'
-      - 'helm/backend/**'
-  workflow_dispatch:  
+      - "backend/**"
+      - "helm/backend/**"
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -54,5 +59,3 @@ jobs:
             --namespace mern-blog \
             --create-namespace \
             --set backend.image.tag=${{ github.sha }}
-
-    
